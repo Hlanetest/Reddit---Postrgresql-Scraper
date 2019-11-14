@@ -5,36 +5,34 @@ import sys
 import psycopg2
 
 
-
-
 class PsqlConnector():
-    def __init__(self, hostname, dbname, username, password):
+    def __init__(self, dbname, username, password):
         '''handles the connection'''
-        self.hostname = hostname
         self.dbname = dbname
         self.username = username
         self.password = password
 
     def connect(self):
         conn = psycopg2.connect(
-            hostname = self.hostname,
-            port = 5342, 
+            #port = 5342, 
             dbname = self.dbname, 
             user = self.username, 
             password = self.password)
         
 
-    def insert(self, array):
+    def insert():
         cur = conn.cursor()
-        cur.execute("insert into submissions ;")
+        cur.execute("select * from submissions;")
+        print ("I worked!")
 
-hostname = '127.0.0.1'
-dbname = 'root'
-username = 'man'
-password = 'stuff'
+with open ("/home/hadrian/Documents/psqlcreds.json") as creds:
+    data = json.load(creds)
+    dbname = data["dbname"]
+    username = data["username"]
+    password = data["password"]
 
 
 
-psqlconn = PsqlConnector(hostname, dbname, username, password)
+psqlconn = PsqlConnector(dbname, username, password)
 psqlconn.connect()
-psqlconn.insert(array)
+psqlconn.insert()
